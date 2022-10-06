@@ -40,10 +40,23 @@ class ExampleController extends Controller
                 ->setTo($to)
                 ->setText($text);
 
+            if ($request->hasFile('image')) {
+                // MMS 발송 시 추가, MMS는 반드시 200kb 이내의 jpg 파일을 업로드해야 합니다
+                $image = $request->file('image');
+                $imageId = $this->messageService->uploadFile($image->getRealPath());
+                $message->setImageId($imageId);
+            }
+
             $result = $this->messageService->send($message);
             return response()->json($result);
         } catch (Exception $exception) {
             return response()->json($exception->getMessage());
         }
+    }
+
+    public function get_balance(): JsonResponse
+    {
+        $balance = $this->messageService->getBalance();
+        return response()->json($balance);
     }
 }

@@ -21,4 +21,5 @@ use Illuminate\Support\Facades\Route;
 Route::name('solapi.')->controller(ExampleController::class)->prefix('solapi')->group(function () {
     Route::get('/get-messages', 'get_messages')->name('get_messages');
     Route::post('/send', 'send')->name('send');
+    Route::get('/get-balance', 'get_balance')->name('get_balance');
 });
