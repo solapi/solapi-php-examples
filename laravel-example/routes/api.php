@@ -22,4 +22,8 @@ Route::name('solapi.')->controller(ExampleController::class)->prefix('solapi')->
     Route::get('/get-messages', 'get_messages')->name('get_messages');
     Route::post('/send', 'send')->name('send');
     Route::get('/get-balance', 'get_balance')->name('get_balance');
+    Route::get('/get-groups', 'get_groups')->name('get_groups');
+    Route::get('/get-group/{groupId}', 'get_group')->name('get_group');
+    Route::get('/get-group-messages/{groupId}', 'get_group_messages')->name('get_group_messages');
+    Route::get('/get-statistics', 'get_statistics')->name('get_statistics');
 });
