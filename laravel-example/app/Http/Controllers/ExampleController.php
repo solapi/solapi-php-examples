@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Nurigo\Solapi\Models\Message;
 use Nurigo\Solapi\Models\Request\GetGroupMessagesRequest;
 use Nurigo\Solapi\Models\Request\GetGroupsRequest;
+use Nurigo\Solapi\Models\Request\GetMessagesRequest;
 use Nurigo\Solapi\Models\Request\GetStatisticsRequest;
 use Nurigo\Solapi\Services\SolapiMessageService;
 
@@ -22,9 +23,68 @@ class ExampleController extends Controller
 
     public function get_messages(Request $request): JsonResponse
     {
-        // TODO: Parameter 설정해야 함
         // 필요한 경우 getMessages 메소드 파라미터 안에 조건을 넣어 검색, GetMessagesRequest 클래스 선언 필요
-        $messages = $this->messageService->getMessages();
+        $getMessagesRequest = new GetMessagesRequest();
+
+        // 페이지네이션을 위한 시작 키 설정, 메시지 조회 시 nextKey로 무한 페이지네이션 가능
+        $request->whenHas('startKey', function (string $startKey) use ($getMessagesRequest) {
+            $getMessagesRequest->setStartKey($startKey);
+        });
+
+        // 데이터 조회 건 수 지정
+        $request->whenHas('limit', function (int $limit) use ($getMessagesRequest) {
+            $getMessagesRequest->setLimit($limit);
+        });
+
+        // 메시지 ID로 조회
+        $request->whenHas('messageId', function (string $messageId) use ($getMessagesRequest) {
+            $getMessagesRequest->setMessageId($messageId);
+        });
+
+        // 메시지 ID 목록(배열)로 조회
+        $request->whenHas('messageIds', function (array $messageIds) use ($getMessagesRequest) {
+            $getMessagesRequest->setMessageIds($messageIds);
+        });
+
+        // 그룹 ID로 조회
+        $request->whenHas('groupId', function (string $groupId) use ($getMessagesRequest) {
+            $getMessagesRequest->setGroupId($groupId);
+        });
+
+        // 수신번호로 메시지 조회
+        $request->whenHas('to', function (string $to) use ($getMessagesRequest) {
+            $getMessagesRequest->setTo($to);
+        });
+
+        // 발신번호로 메시지 조회
+        $request->whenHas('from', function (string $from) use ($getMessagesRequest) {
+            $getMessagesRequest->setFrom($from);
+        });
+
+        // 메시지 유형으로 조회, SMS, LMS, MMS, ATA, CTA, CTI 등으로 조회 가능
+        $request->whenHas('type', function (string $type) use ($getMessagesRequest) {
+            $getMessagesRequest->setType($type);
+        });
+
+        // 상태 코드로 조회
+        // https://docs.solapi.com/documents/references/message-status-codes 참고
+        $request->whenHas('statusCode', function (string $statusCode) use ($getMessagesRequest) {
+            $getMessagesRequest->setStatusCode($statusCode);
+        });
+
+        // 날짜로 조회
+        if ($request->has('startDate') && $request->has('endDate')) {
+
+            // 필요하다면 일자 검색유형을 선택할 수 있음, CREATED: 생성일 기준, UPDATED: 수정일 기준, 기본값: CREATED
+            // $getMessagesRequest->setDateType('UPDATED');
+
+            $startDate = $request->get('startDate');
+            $endDate = $request->get('endDate');
+            $getMessagesRequest->setStartDate($startDate)
+                ->setEndDate($endDate);
+        }
+
+        $messages = $this->messageService->getMessages($getMessagesRequest);
         return response()->json($messages);
     }
 
