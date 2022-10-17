@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,12 +30,14 @@ class KakaoExampleController extends Controller
         $request->validate([
             'pfId' => 'required',
             'templateId' => 'required',
-            'to' => 'required'
+            'to' => 'required',
+            'scheduledDate' => 'date'
         ]);
 
         try {
             $pfId = $request->get('pfId');
             $templateId = $request->get('templateId');
+            $scheduledDate= $request->get('scheduledDate');
 
             $kakaoOption = new KakaoOption();
 
@@ -66,7 +69,15 @@ class KakaoExampleController extends Controller
             $message->setTo($request->get('to'))
                 ->setKakaoOptions($kakaoOption);
 
-            $result = $this->messageService->send($message);
+            if ($request->has('scheduledDate')) {
+                $scheduledDate = Carbon::parse($scheduledDate)->toDateTime();
+
+                // 혹은 메시지 객체의 배열을 넣어 여러 건을 발송할 수도 있습니다!
+                $result = $this->messageService->send($message, $scheduledDate);
+            } else {
+                // 혹은 메시지 객체의 배열을 넣어 여러 건을 발송할 수도 있습니다!
+                $result = $this->messageService->send($message);
+            }
             return response()->json($result);
         } catch (Exception $exception) {
             return response()->json($exception->getMessage());

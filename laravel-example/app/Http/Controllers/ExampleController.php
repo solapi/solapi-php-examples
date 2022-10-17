@@ -100,12 +100,14 @@ class ExampleController extends Controller
             'from' => 'required',
             'to' => 'required',
             'text' => 'required|string',
-            'image' => 'mimes:jpeg,jpg|size:200|dimensions:max_width=1500,max_height=1440'
+            'image' => 'mimes:jpeg,jpg|size:200|dimensions:max_width=1500,max_height=1440',
+            'scheduledDate' => 'date'
         ]);
         $from = $request->get("from");
         $to = $request->get("to");
         // 일반 문자가 아닌 경우 제외
         $text = $request->get("text");
+        $scheduledDate = $request->get('scheduledDate');
 
         try {
             $message = new Message();
@@ -120,7 +122,15 @@ class ExampleController extends Controller
                 $message->setImageId($imageId);
             }
 
-            $result = $this->messageService->send($message);
+            if ($request->has('scheduledDate')) {
+                $scheduledDate = Carbon::parse($scheduledDate)->toDateTime();
+
+                // 혹은 메시지 객체의 배열을 넣어 여러 건을 발송할 수도 있습니다!
+                $result = $this->messageService->send($message, $scheduledDate);
+            } else {
+                // 혹은 메시지 객체의 배열을 넣어 여러 건을 발송할 수도 있습니다!
+                $result = $this->messageService->send($message);
+            }
             return response()->json($result);
         } catch (Exception $exception) {
             return response()->json($exception->getMessage());
