@@ -32,5 +32,6 @@ Route::name('solapi.')->prefix('solapi')->group(function () {
 
     Route::controller(KakaoExampleController::class)->prefix('kakao')->name('kakao.')->group(function () {
         Route::post('/send-ata', 'send_ata')->name('send_ata');
+        Route::post('/send-cta', 'send_cta')->name('send_cta');
     });
 });
