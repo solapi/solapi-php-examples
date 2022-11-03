@@ -1,0 +1,77 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "130e884359ef80d809cefe67616c7c93",
+    "packages": [
+        {
+            "name": "solapi/sdk",
+            "version": "5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/solapi/solapi-php.git",
+                "reference": "6fc09c0734140d5a3e22f967801929db7e5b0f49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/solapi/solapi-php/zipball/6fc09c0734140d5a3e22f967801929db7e5b0f49",
+                "reference": "6fc09c0734140d5a3e22f967801929db7e5b0f49",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nurigo\\Solapi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nurigo CX Team",
+                    "email": "contact@nurigo.net"
+                },
+                {
+                    "name": "Subin Lee",
+                    "email": "chandar.sblee@gmail.com",
+                    "homepage": "https://subux.dev"
+                }
+            ],
+            "description": "SOLAPI SDK for PHP",
+            "homepage": "https://solapi.com",
+            "keywords": [
+                "alimtalk",
+                "friendtalk",
+                "lms",
+                "mms",
+                "nurigo",
+                "sdk",
+                "sms",
+                "solapi"
+            ],
+            "support": {
+                "issues": "https://github.com/solapi/solapi-php/issues",
+                "source": "https://github.com/solapi/solapi-php/tree/v5.0.4"
+            },
+            "time": "2022-11-02T09:18:21+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
