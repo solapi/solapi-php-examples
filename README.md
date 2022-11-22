@@ -10,3 +10,13 @@
 ```bash
 composer require solapi/sdk
 ```
+
+## 예제 목록(Composer가 설치되어 있어야 합니다)
+
+### PHP 파일 기반 예제
+
+> basic-example 폴더 참조
+
+### Laravel 기반 예제
+
+> laravel-example 폴더 참조
