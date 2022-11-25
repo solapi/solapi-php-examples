@@ -4,4 +4,4 @@
 
 ## Getting Started
 
-처음 소스를 다운로드 받았을 때 반드시 `php artisan key:generate`를 터미널에 입력해주세요.
+처음 소스를 다운로드 받았을 때 반드시 `composer install`과 `php artisan key:generate`를 터미널에 입력해주세요.
