@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \stdClass;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -47,17 +48,15 @@ class KakaoExampleController extends Controller
             if ($request->has('variables')) {
                 // variables[0][key], variables[0][value] 형식으로 요청, key는 #{변수명} 등의 값을 넣어주어야 합니다.
                 $variablesRequest = $request->collect('variables');
-                $variables = collect();
+                $variables = new stdClass();
                 $variablesRequest->each(function ($variable) use ($variables) {
                     if (!empty($variable["key"]) && !empty($variable["value"])) {
                         $key = $variable["key"];
                         $value = $variable["value"];
-                        $variables->push([
-                            $key => $value
-                        ]);
+                        $variables->{$key} = $value;
                     }
                 });
-                if ($variables->count() > 0) {
+                if (count((array)$variables) > 0) {
                     $kakaoOption->setVariables($variables);
                 }
             }
